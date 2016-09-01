@@ -1,4 +1,4 @@
-function [mean, var, success, con_mean, con_var, con_success] = CS4300_A1_Part_II_2_runner(num_of_trials)
+function [mean, var, success, confidence] = CS4300_A1_Part_II_2_runner(num_of_trials)
 % CS4300_A1_Part_II_2_runner - Uses CS4300_A1_Part_II_2() to get tests results and calulcates Part 2.2's requirements
 % On Input:
 %   num_of_trials   (Int): The number of trails to complete before returning
@@ -6,9 +6,7 @@ function [mean, var, success, con_mean, con_var, con_success] = CS4300_A1_Part_I
 %   mean        (Float): The mean number of steps from each trial
 %   var         (Float): The variance of the number of steps from the trials
 %   success     (Float): The percentage of trials where the agent got the gold
-%   con_mean    (Float): The 95% confidence interval for the mean
-%   con_var     (Float): The 95% confidence interval for the variance
-%   con_success (Float): The 95% confidence interval for the success
+%   confidence  (Float): The 95% confidence interval for the mean
 % Call:
 %     [mean, var, success, con_mean, con_var, con_success] = CS4300_A1_Part_II_2_runner(2000);
 % Author:
@@ -49,8 +47,7 @@ for i = 1:num_of_trials
 end
 var = var / num_of_trials;
 
-con_mean = 0.0;
-con_var = 0.0;
-con_success = 0.0;
+% get confidence
+confidence = 1.645 * sqrt(var) / sqrt(num_of_trials);
 
 end
