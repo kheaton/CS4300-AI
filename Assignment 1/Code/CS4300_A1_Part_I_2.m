@@ -1,5 +1,6 @@
 function [mean, var, confidence] = CS4300_A1_Part_I_2(num_of_boards)
-% CS4300_A1_Part_I_2 - This will generate a number of boards for each step in the interval of 0-14 pits
+% CS4300_A1_Part_I_2 - This will generate a number of boards for each step in the interval of 0-14 pits and calculate the mean, var, and 95%
+%   confidence interval
 % On Input:
 %   num_of_boards (int): The number of boards to generates
 % On Output:

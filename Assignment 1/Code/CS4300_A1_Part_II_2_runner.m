@@ -1,5 +1,5 @@
 function [mean, var, success, con_mean, con_var, con_success] = CS4300_A1_Part_II_2_runner(num_of_trials)
-% CS4300_A1_Part_II_2 - Uses CS4300_agent1 to get instructions and will then execute those instructions
+% CS4300_A1_Part_II_2_runner - Uses CS4300_A1_Part_II_2() to get tests results and calulcates Part 2.2's requirements
 % On Input:
 %   num_of_trials   (Int): The number of trails to complete before returning
 % On Output:
