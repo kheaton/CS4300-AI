@@ -17,6 +17,7 @@ function [mean, var, success, con_mean, con_var, con_success] = CS4300_A1_Part_I
 %   Fall 2016
 %
 
+
 % Run the tests and save all of the results
 test_results = zeros(num_of_trials, 2);
 for i = 1:num_of_trials
@@ -25,7 +26,9 @@ for i = 1:num_of_trials
     test_results(i, 2) = res;
 end
 
-% calculate results from the tests
+% --- CALCULATE RESULTS ---
+
+% get mean and success rate
 mean = 0.0;
 success = 0.0;
 for i = 1:num_of_trials
@@ -35,11 +38,17 @@ for i = 1:num_of_trials
         success = success + 1.0;
     end
 end
-
 mean = mean / num_of_trials;
 success = success / num_of_trials * 100.0;
 
+% get var
 var = 0.0;
+for i = 1:num_of_trials
+    tmp = test_results(i, 1) - mean;
+    var = var + (tmp * tmp);
+end
+var = var / num_of_trials;
+
 con_mean = 0.0;
 con_var = 0.0;
 con_success = 0.0;
