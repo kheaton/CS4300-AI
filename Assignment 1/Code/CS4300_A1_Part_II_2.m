@@ -3,7 +3,7 @@ function [steps, res] = CS4300_A1_Part_II_2()
 % On Input:
 %   NONE
 % On Output:
-%   steps   (Int):  The number of steps the agent took before dying or reaching the gold
+%   steps   (Float):  The number of steps the agent took before dying or reaching the gold
 %   res     (Int):  The end result of the steps
 %       (1): Death by pit
 %       (2): Death by Wumpus    -- NOT USED
@@ -42,7 +42,7 @@ face = RIGHT;
 % the current location
 pos = [1 1];
 
-steps = 0;
+steps = 0.0;
 res = 0;
 
 while res == 0
@@ -66,7 +66,7 @@ while res == 0
             % if this check fails then we are bouncing off the wall
             if ~(potential_pos(1) < 1 || potential_pos(1) > 4 || potential_pos(2) < 1 || potential_pos(2) > 4) == 1
                 pos = potential_pos;
-                steps = steps + 1;
+                steps = steps + 1.0;
 
                 % check to see what happened with the step
                 step_res = board(pos(1), pos(2));
