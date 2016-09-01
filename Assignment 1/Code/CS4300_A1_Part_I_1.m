@@ -9,7 +9,7 @@ function num_of_solvable = CS4300_A1_Part_I_1(num_of_boards, num_of_pits)
 % Call:
 %   solvable = CS4300_A1_Part_I_1(5000, 4);
 % Author:
-%   Braden Scothern
+%   Braden Scothern & Kyle Heaton
 %   UU
 %   Fall 2016
 
