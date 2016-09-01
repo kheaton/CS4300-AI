@@ -25,7 +25,7 @@ res = zeros(num_trials,3);
 wb = waitbar(0,'Run A1');
 for t = 1:num_trials
     waitbar(t/num_trials);
-    trace = CS4300_WW2(Inf,'CS4300_Example2');
+    trace = CS4300_WW2(Inf,'CS4300_agent1');
     res_t = CS4300_get_data(trace);
     res(t,1) = res_t(1);
     res(t,2) = res_t(2);

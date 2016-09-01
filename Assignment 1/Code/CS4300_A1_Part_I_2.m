@@ -36,6 +36,6 @@ end
 var = var / 15.0;
 
 % calculate confidence
-confidence = 1.753 * sqrt(var) / sqrt(15);
+confidence = 1.645 * sqrt(var) / sqrt(15);
 
 end
