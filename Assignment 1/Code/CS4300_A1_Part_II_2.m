@@ -47,6 +47,7 @@ res = 0;
 
 while res == 0
     action = CS4300_agent1([0 0 0 0 0]);
+    steps = steps + 1.0;
     switch action
         case 1  % step forward
             % get the new location
@@ -66,7 +67,6 @@ while res == 0
             % if this check fails then we are bouncing off the wall
             if ~(potential_pos(1) < 1 || potential_pos(1) > 4 || potential_pos(2) < 1 || potential_pos(2) > 4) == 1
                 pos = potential_pos;
-                steps = steps + 1.0;
 
                 % check to see what happened with the step
                 step_res = board(pos(1), pos(2));
