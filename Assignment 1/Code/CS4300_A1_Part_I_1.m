@@ -18,7 +18,7 @@ if num_of_pits < 0 || num_of_pits > 14
 end
 
 num_of_solvable = 0;
-for i = 0:(num_of_boards - 1)
+for i = 1:num_of_boards
     if CS4300_Wumpus_solvable(CS4300_gen_board_A1(num_of_pits))
         num_of_solvable = num_of_solvable + 1;
     end
