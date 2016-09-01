@@ -1,9 +1,9 @@
-function [res, var, confidence] = CS4300_A1_Part_I_2(num_of_boards)
+function [mean, var, confidence] = CS4300_A1_Part_I_2(num_of_boards)
 % CS4300_A1_Part_I_2 - This will generate a number of boards for each step in the interval of 0-14 pits
 % On Input:
 %   num_of_boards (int): The number of boards to generates
 % On Output:
-%   res         (15 X 1 array): The first index (the row) is equal to the number of pits + 1. Each row contains the number of solvable boards
+%   mean        (Float): The mean number of solvable boards
 %   var         (Float): The variance of solvable boards
 %   confidence  (Float): The 95% confidence interval for the data
 % Call:
@@ -19,13 +19,14 @@ for pits = 0:14
     res(pits + 1, 1) = CS4300_A1_Part_I_1(num_of_boards, pits);
 end
 
-% calculate variance
+% calculate mean
 mean = 0.0;
 for i = 1:15
     mean = mean + res(i, 1);
 end
 mean = mean / 15.0;
 
+% calculate varaince
 var = 0.0;
 for i = 1:15
     tmp = res(i, 1) - mean;
@@ -33,6 +34,7 @@ for i = 1:15
 end
 var = var / 15.0;
 
+% calculate confidence
 confidence = 0.0;
 
 end
