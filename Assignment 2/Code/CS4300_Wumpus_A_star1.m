@@ -116,24 +116,14 @@ while 1==1
         for i = 1:size(frontier, 2)
             if i == size(frontier, 2)
                     frontier = [frontier(1:end), next_list(1,1)];
-            elseif option == 1
-                if frontier(i) >= next_list(1, 2)
-                    if i == 1
-                        frontier = [next_list(1,1), frontier(1:end)];
-                    else
-                        frontier = [frontier(1:(i - 1)), next_list(1,1), frontier(i,end)];
-                    end
-                    break
+            elseif (option == 1 && frontier(i) >= next_list(1, 2)) || (option == 2 && next_list(1,2) < frontier(i))
+                if i == 1
+                    frontier = [next_list(1,1), frontier(1:end)];
+                else
+                    frontier = [frontier(1:(i - 1)), next_list(1,1), frontier(i,end)];
                 end
-            elseif option == 2
-                if next_list(1,2) < frontier(i)
-                    if i == 1
-                        frontier = [next_list(1,1), frontier(1:end)];
-                    else
-                        frontier = [frontier(1:(i - 1)), next_list(1,1), frontier(i,end)];
-                    end
-                    break
-                end
+
+                break
             end
         end
         % remove the first element that we just worked with
