@@ -83,6 +83,7 @@ while 1==1
             solution = [nodes(idx), solution];
             idx = nodes(idx).parent;
         end
+        solution = [nodes(1), solution];
         return;
     end
     
