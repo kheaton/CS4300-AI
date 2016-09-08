@@ -52,7 +52,8 @@ goal_state,h_name,option)
 MIN_BOUNDS = 1;
 MAX_BOUNDS = 4;
 
-%heuristic_func = str2func(h_name);
+% convert h_name into a function
+heuristic_func = str2func(h_name);
 
 nodes = CS4300_A2_New_Node();   % Only the fields here need to be initialized, everything else defaults to []
 nodes(1).parent = 0;
