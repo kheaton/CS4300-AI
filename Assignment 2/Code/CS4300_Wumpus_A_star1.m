@@ -10,7 +10,7 @@ goal_state,h_name,option)
 %       4: means gold and Wumpus in cell
 %   initial_state (1x3 vector): x,y,dir state
 %   goal_state (1x3 vector): x,y,dir state
-%   h_name (string): name of heuristic function
+%   h_name (string): name of heuristic function, we have assumed this expects a current state (1x3 vector): x,y,dir and the goal_state in that order
 %   option (int): picks insertion strategy for equal cost states
 %       1: insert state before equal or greater than states
 %       2: insert after equal or less than states
@@ -61,7 +61,7 @@ nodes(1).level = 0;
 nodes(1).state = initial_state;
 nodes(1).action = 0;
 nodes(1).g = 0;
-nodes(1).h = CS4300_A2_Manhattan_Distance(initial_state, goal_state);
+nodes(1).h = heuristic_func(initial_state, goal_state);
 nodes(1).cost = nodes(1).g + nodes(1).h;
 
 num_nodes = 1;
@@ -121,7 +121,7 @@ while 1==1
         if nodes(node).action ~= 1  % check if we added a turn op before stepping forward, if so we need to add 1 more to get to where we are
             nodes(num_nodes).g = nodes(num_nodes).g + 1;
         end
-        nodes(num_nodes).h = CS4300_A2_Manhattan_Distance(state, goal_state);
+        nodes(num_nodes).h = heuristic_func(state, goal_state);
         nodes(num_nodes).cost = nodes(num_nodes).g + nodes(num_nodes).h;
 
         next_list = cat(1, [num_nodes, nodes(num_nodes).cost], next_list);
