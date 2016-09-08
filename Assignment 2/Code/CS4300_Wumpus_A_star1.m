@@ -48,8 +48,30 @@ goal_state,h_name,option)
 % UU
 % Fall 2016
 %
+heuristic_func = str2func(h_name);
+
+nodes = CS4300_A2_New_Node();   % Only the fields here need to be initialized, everything else defaults to []
+nodes(1).level = 0;
+nodes(1).state = initial_state;
+nodes(1).action = 0;
+nodes(1).cost = 0;
+
+num_nodes = 1;
+frontier = [1];
+explored = [];
 
 while 1==1
+    if isEmpty(frontier)
+        solution = [];
+        return
+    end
+    node = frontier(1);
+    frontier = frontier(2:end);
+    explored = cat(1, explored, node);
     
+    % change the frontier behavior according to option
+    if option == 1
+    elseif option == 2
+    end
 end
 end

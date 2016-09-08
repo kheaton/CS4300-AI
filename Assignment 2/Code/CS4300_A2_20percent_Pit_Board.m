@@ -39,7 +39,7 @@ else
     board(x,y) = 2;
 end
 
-goal_state = [x, y, 1];
+goal_state = [x, y, 0];
 
 % Place Pits
 for i = 1:4
