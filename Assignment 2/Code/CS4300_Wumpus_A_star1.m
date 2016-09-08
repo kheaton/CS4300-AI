@@ -137,9 +137,6 @@ while 1==1
                 if i == 1
                     frontier = [next_list(1,1), frontier(1:end)];
                 else
-                    disp(frontier);
-                    disp(i);
-                    disp(next_list);
                     frontier = [frontier(1:(i - 1)), next_list(1,1), frontier(1,i:end)];
                 end
                 break;
