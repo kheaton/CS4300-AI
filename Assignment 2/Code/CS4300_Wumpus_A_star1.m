@@ -112,7 +112,7 @@ while 1==1
         nodes(num_nodes).h = CS4300_A2_Manhattan_Distance(state, goal_state);
         nodes(num_nodes).cost = nodes(num_nodes).g + nodes(num_nodes).h;
 
-        next_list = [[num_nodes, nodes(num_nodes).cost], next_list];
+        next_list = cat(1, [num_nodes, nodes(num_nodes).cost], next_list);
     end
     
     % change the frontier behavior according to option
@@ -125,7 +125,10 @@ while 1==1
                 if i == 1
                     frontier = [next_list(1,1), frontier(1:end)];
                 else
-                    frontier = [frontier(1:(i - 1)), next_list(1,1), frontier(i,end)];
+                    disp(frontier);
+                    disp(i);
+                    disp(next_list);
+                    frontier = [frontier(1:(i - 1)), next_list(1,1), frontier(1,i:end)];
                 end
                 break
             end
