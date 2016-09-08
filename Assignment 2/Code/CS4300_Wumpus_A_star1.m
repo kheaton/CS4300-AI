@@ -65,7 +65,6 @@ nodes(1).cost = nodes(1).g + nodes(1).h;
 
 num_nodes = 1;
 frontier = [1];
-explored = [];
 
 while 1==1
     if size(frontier, 2) == 0
@@ -74,8 +73,13 @@ while 1==1
     end
     node = frontier(1);
     frontier = frontier(2:end);
-    explored = cat(1, explored, node);
     
+    % check if we have a victory condition
+    if (nodes(node).state(1) == goal_state(1) && nodes(node).state(2) == goal_state(2))
+        return;
+    end
+    
+    % no victory condition so we will add more children and keep searching
     states = CS4300_A2_Expand_States(nodes(node).state);
     next_list = [];
     for i = 1:3
@@ -83,16 +87,16 @@ while 1==1
         
         % make sure the state is in bounds or continue
         if state(1) < MIN_BOUNDS || state(1) > MAX_BOUNDS || state(2) < MIN_BOUNDS || state(2) > MAX_BOUNDS
-            continue
+            continue;
         end
         % make sure it is a new state or continue
         if CS4300_A2_State_Is_Duplicate(state, nodes, 1)
-            continue
+            continue;
         end
         % make sure the new state isn't a pit or wumpus
         board_state = board(state(1), state(2));
         if (board_state == 1 || board_state == 3 || board_state == 4)
-            continue
+            continue;
         end
 
         num_nodes = num_nodes + 1;
@@ -130,7 +134,7 @@ while 1==1
                     disp(next_list);
                     frontier = [frontier(1:(i - 1)), next_list(1,1), frontier(1,i:end)];
                 end
-                break
+                break;
             end
         end
         
