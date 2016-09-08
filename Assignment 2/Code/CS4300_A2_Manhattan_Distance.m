@@ -1,5 +1,5 @@
 function dis = CS4300_A2_Manhattan_Distance(initial_state, goal_state)
-% CS4300_Wumpus_A_star1 - A* algorithm for Wumpus world
+% CS4300_A2_Manhattan_Distance - Calculates the Manhattan Distance between 2 points in the Wumpus World
 % On input:
 %   initial_state (1x3 vector): x,y,dir state
 %   goal_state (1x3 vector): x,y,dir state
