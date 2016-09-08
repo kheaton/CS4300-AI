@@ -76,7 +76,7 @@ while 1==1
     states = CS4300_A2_Expand_States(nodes(node).state);
     next_list = [];
     for i = 1:3
-        state = states(i, 1:3);
+        state = states(i,:);
         
         % make sure the state is in bounds or continue
         if state(1) < MIN_BOUNDS || state(1) > MAX_BOUNDS || state(2) < MIN_BOUNDS || state(2) > MAX_BOUNDS
@@ -108,12 +108,29 @@ while 1==1
         nodes(num_nodes).h = CS4300_A2_Manhattan_Distance(state, goal_state);
         nodes(num_nodes).cost = nodes(num_nodes).g + nodes(num_nodes).h;
         
-        next_list = cat(1, num_nodes, next_list);
+        next_list = cat(1, [num_nodes, nodes(num_nodes).cost], next_list);
     end
     
     % change the frontier behavior according to option
-    if option == 1
-    elseif option == 2
+    while size(next_list, 1) ~= 0
+        if option == 1
+            for i = 1:size(frontier, 2)
+                if i == size(frontier, 2)
+                    frontier = [frontier(1:end), next_list(1,1)];
+                elseif frontier(i) >= next_list(1, 2)
+                    if i == 1
+                        frontier = [next_list(1,1), frontier(1:end)];
+                    else
+                        frontier = [frontier(1:(i - 1)), next_list(1,1), frontier(i,end)];
+                    end
+                    break
+                end
+            end
+        elseif option == 2
+            
+        end
+        % remove the first element that we just worked with
+        next_list = next_list(2:end, :)
     end
 end
 end
