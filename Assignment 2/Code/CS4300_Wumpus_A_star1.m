@@ -44,8 +44,8 @@ goal_state,h_name,option)
 % h
 % children
 % Author:
-% T. Henderson
+% Braden Scothern & Kyle Heaton
 % UU
-% Summer 2016
+% Fall 2016
 %
 end
