@@ -1,10 +1,10 @@
-function newNode = CS4300_A2_New_Node()
+function new_node = CS4300_A2_New_Node()
 % CS4300_A2_New_Node - Creates a new empty struct that is a node in the wumpus world
 % On input:
 %   No Inputs
 %
 % On output:
-%   A node with the following fields:
+%   new_node (Node): A node with the following fields
 %       parent (int): index of node’s parent
 %       level (int): level of node in search tree
 %       state (1x3 vector): [x,y,dir] state represented by node
@@ -22,7 +22,7 @@ function newNode = CS4300_A2_New_Node()
 % UU
 % Fall 2016
 %
-newNode = struct(...
+new_node = struct(...
     'parent', {},...
     'level', {},...
     'state', {},...
