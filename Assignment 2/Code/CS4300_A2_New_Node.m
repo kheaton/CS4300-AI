@@ -1,5 +1,5 @@
 function new_node = CS4300_A2_New_Node()
-% CS4300_A2_New_Node - Creates a new empty struct that is a node in the wumpus world
+% CS4300_A2_New_Node - Creates a new empty struct that is a node in the wumpus world. This is mostly for documentation.
 % On input:
 %   No Inputs
 %
