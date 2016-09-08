@@ -1,4 +1,4 @@
-function board = CS4300_A2_20percent_Pit_Board()
+function [board, goal_state] = CS4300_A2_20percent_Pit_Board()
 % CS4300_A2_20percent_Pit_Board - Creates a Wumpus Board with both the wumpus and gold randomly placed and a 20% chance for a pit at each location
 % On input:
 %   No Inputs
@@ -10,9 +10,10 @@ function board = CS4300_A2_20percent_Pit_Board()
 %       2: means gold (only) in cell
 %       3: means Wumpus (only) in cell
 %       4: means gold and Wumpus in cell
+%   goal_state (1x3 vector): x,y,dir of final state
 %
 % Call:
-%   dis = CS4300_A2_Manhattan_Distance([1, 1, 1], [4, 4, 1]);
+%   [board, goal_state] = CS4300_A2_20percent_Pit_Board();
 %
 % Author:
 % Braden Scothern & Kyle Heaton
@@ -38,15 +39,16 @@ else
     board(x,y) = 2;
 end
 
+goal_state = [x, y, 1];
+
 % Place Pits
 for i = 1:4
     for j = 1:4
-        if ~(i == 1 && j == 1)      % The instructions state that we cannot place a pit in the starting location
-            if board(i,j) == 0      % Don't change the gold/wumpus into a pit
-                if randi(5) == 1    % This is a 20% chance to be true and when it is we place the pit
-                    board(i, j) = 1;
-                end
-            end
+        % The instructions state that we cannot place a pit in the starting location
+        % We are also assuming that you cannot change the gold/wumpus into a pit
+        % This is a 20% chance to be true and when it is we place the pit
+        if ~(i == 1 && j == 1) && board(i,j) == 0 && randi(5) == 1        
+            board(i, j) = 1;
         end
     end
 end
