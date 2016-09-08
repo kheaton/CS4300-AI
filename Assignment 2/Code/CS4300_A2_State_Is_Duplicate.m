@@ -1,8 +1,9 @@
-function duplicate = CS4300_A2_State_Is_Duplicate(potential_state, root_node)
+function duplicate = CS4300_A2_State_Is_Duplicate(potential_state, nodes, idx)
 % CS4300_A2_Node_Is_Duplicate - Finds out if a node is a duplicate
 % On input:
 %   potential_state (1x3 vector): [x,y,dir] state represented by node
-%   root (Node): The root of the tree which needs to be searched for duplicates
+%   nodes (1xK Node Array): nodes(1) is the root of the tree which needs to be searched for duplicates
+%   idx (Int): The index to check
 %
 % On output:
 %   duplicate (Boolean): Returns TRUE if the potential_node is already found in the tree
@@ -16,13 +17,13 @@ function duplicate = CS4300_A2_State_Is_Duplicate(potential_state, root_node)
 % Fall 2016
 %
 
-if potential_state == root_node.state
+if potential_state == nodes(idx).state
     duplicate = true;
     return
 end
 
-for child = root_node.children
-    duplicate = CS4300_A2_Node_Is_Duplicate(potential_state, child);
+for child = nodes(idx).children
+    duplicate = CS4300_A2_State_Is_Duplicate(potential_state, nodes, child.num);
     if duplicate
         return;
     end

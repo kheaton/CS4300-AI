@@ -55,17 +55,20 @@ MAX_BOUNDS = 4;
 heuristic_func = str2func(h_name);
 
 nodes = CS4300_A2_New_Node();   % Only the fields here need to be initialized, everything else defaults to []
+nodes(1).num_nodes = 1;
 nodes(1).level = 0;
 nodes(1).state = initial_state;
 nodes(1).action = 0;
-nodes(1).cost = 0;
+nodes(1).g = 0;
+nodes(1).h = CS4300_A2_Manhattan_Distance(initial_state, goal_state);
+nodes(1).cost = nodes(1).g + nodes(1).h;
 
 num_nodes = 1;
 frontier = [1];
 explored = [];
 
 while 1==1
-    if isEmpty(frontier)
+    if size(frontier, 2) == 0
         solution = [];
         return
     end
@@ -83,7 +86,7 @@ while 1==1
             continue
         end
         % make sure it is a new state or continue
-        if CS4300_A2_Node_Is_Duplicate(state, nodes)
+        if CS4300_A2_State_Is_Duplicate(state, nodes, 1)
             continue
         end
         % make sure the new state isn't a pit or wumpus
@@ -94,11 +97,12 @@ while 1==1
 
         num_nodes = num_nodes + 1;
         nodes(num_nodes).parent = node;
+        nodes(num_nodes).num = num_nodes;
         nodes(num_nodes).level = nodes(node).level + 1;
         nodes(num_nodes).state = state;
         nodes(num_nodes).action = i;
         nodes(num_nodes).children = [];
-        nodes(node).children = cat(1, nodes(node).children, nodes(num_nodes));
+        nodes(node).children = [nodes(node).children, nodes(num_nodes)];
         
         % get g, h, and cost
         nodes(num_nodes).g = nodes(node).g + 1;
@@ -107,12 +111,13 @@ while 1==1
         end
         nodes(num_nodes).h = CS4300_A2_Manhattan_Distance(state, goal_state);
         nodes(num_nodes).cost = nodes(num_nodes).g + nodes(num_nodes).h;
-        
-        next_list = cat(1, [num_nodes, nodes(num_nodes).cost], next_list);
+
+        next_list = [[num_nodes, nodes(num_nodes).cost], next_list];
     end
     
     % change the frontier behavior according to option
     while size(next_list, 1) ~= 0
+        
         for i = 1:size(frontier, 2)
             if i == size(frontier, 2)
                     frontier = [frontier(1:end), next_list(1,1)];
@@ -122,12 +127,17 @@ while 1==1
                 else
                     frontier = [frontier(1:(i - 1)), next_list(1,1), frontier(i,end)];
                 end
-
                 break
             end
         end
+        
+        % make sure we add stuff if it was empty when we started
+        if size(frontier, 2) == 0
+            frontier = [next_list(1,1)];
+        end
+        
         % remove the first element that we just worked with
-        next_list = next_list(2:end, :)
+        next_list = next_list(2:end, :);
     end
 end
 end
