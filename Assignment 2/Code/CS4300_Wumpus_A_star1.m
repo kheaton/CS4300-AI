@@ -55,6 +55,7 @@ MAX_BOUNDS = 4;
 heuristic_func = str2func(h_name);
 
 nodes = CS4300_A2_New_Node();   % Only the fields here need to be initialized, everything else defaults to []
+nodes(1).parent = 0;
 nodes(1).num_nodes = 1;
 nodes(1).level = 0;
 nodes(1).state = initial_state;
@@ -76,6 +77,12 @@ while 1==1
     
     % check if we have a victory condition
     if (nodes(node).state(1) == goal_state(1) && nodes(node).state(2) == goal_state(2))
+        idx = node;
+        solution = [];
+        while nodes(idx).parent ~= 0
+            solution = [nodes(idx), solution];
+            idx = nodes(idx).parent;
+        end
         return;
     end
     
