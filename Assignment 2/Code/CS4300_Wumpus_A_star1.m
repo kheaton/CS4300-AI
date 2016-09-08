@@ -48,6 +48,10 @@ goal_state,h_name,option)
 % UU
 % Fall 2016
 %
+
+MIN_BOUNDS = 1;
+MAX_BOUNDS = 4;
+
 heuristic_func = str2func(h_name);
 
 nodes = CS4300_A2_New_Node();   % Only the fields here need to be initialized, everything else defaults to []
@@ -68,6 +72,44 @@ while 1==1
     node = frontier(1);
     frontier = frontier(2:end);
     explored = cat(1, explored, node);
+    
+    states = CS4300_A2_Expand_States(nodes(node).state);
+    next_list = [];
+    for i = 1:3
+        state = states(i, 1:3);
+        
+        % make sure the state is in bounds or continue
+        if state(1) < MIN_BOUNDS || state(1) > MAX_BOUNDS || state(2) < MIN_BOUNDS || state(2) > MAX_BOUNDS
+            continue
+        end
+        % make sure it is a new state or continue
+        if CS4300_A2_Node_Is_Duplicate(state, nodes)
+            continue
+        end
+        % make sure the new state isn't a pit or wumpus
+        board_state = board(state(1), state(2));
+        if (board_state == 1 || board_state == 3 || board_state == 4)
+            continue
+        end
+
+        num_nodes = num_nodes + 1;
+        nodes(num_nodes).parent = node;
+        nodes(num_nodes).level = nodes(node).level + 1;
+        nodes(num_nodes).state = state;
+        nodes(num_nodes).action = i;
+        nodes(num_nodes).children = [];
+        nodes(node).children = cat(1, nodes(node).children, nodes(num_nodes));
+        
+        % get g, h, and cost
+        nodes(num_nodes).g = nodes(node).g + 1;
+        if nodes(node).action ~= 1  % check if we added a turn op before stepping forward, if so we need to add 1 more to get to where we are
+            nodes(num_nodes).g = nodes(num_nodes).g + 1;
+        end
+        nodes(num_nodes).h = CS4300_A2_Manhattan_Distance(state, goal_state);
+        nodes(num_nodes).cost = nodes(num_nodes).g + nodes(num_nodes).h;
+        
+        next_list = cat(1, num_nodes, next_list);
+    end
     
     % change the frontier behavior according to option
     if option == 1
