@@ -20,7 +20,10 @@ function D_revised = CS4300_AC1(G,D,P)
 % UU
 % Fall 2016
 %
-D_revised = 1;
-pause(length(G) * 0.0001);
+percent = CS4300_Count_Ones(D) / length(D)^2;
+
+D_revised = CS4300_Generate_D(length(D), percent * rand());
+%D_revised = zeros(length(D));
+pause(length(G) * 0.002 * percent * rand());
 
 end
