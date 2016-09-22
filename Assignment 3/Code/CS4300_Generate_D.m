@@ -14,11 +14,12 @@ function D = CS4300_Generate_D(size, percentage)
 %   UU
 %   Fall 2016
 
+    D = rand(size, size) < percentage;
+
     %https://www.mathworks.com/matlabcentral/answers/111540-generating-a-random-binary-matrix
-    
-    numberOfOnes = ceil(size * size * percentage);
-    D = zeros(size, size);
-    D(1:numberOfOnes) = 1;
-    D(randperm(numel(D))) = D;
+    %numberOfOnes = ceil(size * size * percentage);
+    %D = zeros(size, size);
+    %D(1:numberOfOnes) = 1;
+    %D(randperm(numel(D))) = D;
 end
 
