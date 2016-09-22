@@ -35,29 +35,32 @@ function [ac1Reductions, ac3Reductions, ac1Times, ac3Times, startingLabels] = CS
 
     n = 4:10;
     p = 0 : 0.2 : 1;
-    numberOfTrials = 200;
+    numberOfTrials = 2;%00;
     
-    startMatrix = zeros(length(n), 1, length(p));
+    %n, (x, y) - (starting number of labels, expected reduction in Labels)
+    %reduction should be the same for ac1 and ac3
+    %expected reduction should be an average of the 200 trials with each
+    %percentage
     
-    startingLabels = startMatrix;
-    ac1Reductions = startMatrix;
-    ac3Reductions = startMatrix;
+    dim1 = length(p) * numberOfTrials;
+    dim2 = 2;
+    dim3 = length(n);
     
-    ac1Times = startMatrix;
-    ac3Times = startMatrix;
+    reductions = zeros(dim1, dim2, dim3);
+    
+    ac1Times = zeros(length(n));
+    ac3Times = zeros(length(n));
     
     totalSteps = length(n) * length(p) * numberOfTrials;
-    count = 0;
+    count = 1;
     h = waitbar(0, 'Please wait...');
     for i = 1 : length(n)
         %Generate identity matrix for g
         g = ~eye(n(i),n(i));
+        %Set counts to get the everage time
+        ac1TimeCount = 0;
+        ac3TimeCount = 0;
         for j = 1 : length(p)
-            ac1ReductionCount = 0;
-            ac1TimeCount = 0;
-            ac3ReductionCount = 0;
-            ac3TimeCount = 0;
-            
             for t = 1 : numberOfTrials   
                 %Generate the random domain
                 d = CS4300_Generate_D(n(i), p(j));
@@ -65,22 +68,19 @@ function [ac1Reductions, ac3Reductions, ac1Times, ac3Times, startingLabels] = CS
                 %perform arc consistency test
                 [ac1r, ac1t, ac3r, ac3t] = CS4300_Arc_Consistency(g, d, P_function);
                 
-                %add totals to calculate average
-                ac1ReductionCount = ac1ReductionCount + ac1r;
+                reductions(i, 1, count) = CS4300_Count_Ones(d);
+                reductions(i, 2, count) = ac3r;
+                
                 ac1TimeCount = ac1TimeCount + ac1t;
-                ac3ReductionCount = ac3ReductionCount + ac3r;
                 ac3TimeCount = ac3TimeCount + ac3t;
                 
                 count = count + 1;
                 waitbar(count / totalSteps);
             end
-            startingLabels(i, n(i), j) = ceil(n(i)^2 * p(j));
-            ac1Reductions(i, n(i), j) = ac1ReductionCount / numberOfTrials;
-            ac3Reductions(i, n(i), j) = ac3ReductionCount / numberOfTrials;
-            
-            ac1Times(i, n(i), j) = ac1TimeCount / numberOfTrials;
-            ac3Times(i, n(i), j) = ac3TimeCount / numberOfTrials;
         end
+        
+        ac1Times(i) = ac1TimeCount / length(p) * numberOfTrials;
+        ac3Times(i) = ac3TimeCount / length(p) * numberOfTrials;
     end
     
     close(h);
