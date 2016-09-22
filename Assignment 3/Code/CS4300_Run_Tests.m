@@ -1,19 +1,37 @@
 function [ac1Reductions, ac3Reductions, ac1Times, ac3Times, startingLabels] = CS4300_Run_Tests()
 % CS4300_Run_Tests - 
 % On input:
-
+%
 % arguments:
-
+%
 % On output:
-
+%
 % Call:
-
+%
 % Author:
 % Braden Scothern & Kyle Heaton
 % UU
 % Fall 2016
 %
-    P_function = '';
+    
+% Sudo Code from class
+%   for N = 4:10
+%       G = ~eye(N,N)
+%       for p = 0:0,2:1
+%           for t = 1:200
+%               D = rand(N,N) < p;
+%               tic;
+%               D1 = CS4300_AC1(G,D);
+%               t1 = toc;
+%               tic
+%               D2 = CS4300_AC3(G,D)
+%               t2 = toc;
+%
+%   Look up:
+%       [p,s] = polyfit(...);
+%
+
+    P_function = 'CS4300_P_no_attack';
 
     n = 4:10;
     p = 0 : 0.2 : 1;

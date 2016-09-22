@@ -20,10 +20,34 @@ function D_revised = CS4300_AC1(G,D,P)
 % UU
 % Fall 2016
 %
-percent = CS4300_Count_Ones(D) / length(D)^2;
 
-D_revised = CS4300_Generate_D(length(D), percent * rand());
-%D_revised = zeros(length(D));
-pause(length(G) * 0.002 * percent * rand());
+%percent = CS4300_Count_Ones(D) / length(D)^2;
+
+%D_revised = CS4300_Generate_D(length(D), percent * rand());
+%%D_revised = zeros(length(D));
+%pause(length(G) * 0.002 * percent * rand());
+
+D_revised = D;
+x = [];
+y = [];
+for i = 1:length(D)
+    for j = 1:length(D)
+        x = [x(1:length(x)), i];
+        y = [y(1:length(y)), j];
+    end
+end
+
+while ~isempty(x)
+    x_ = x(1);
+    x = x(2:length(x));
+    y_ = y(1);
+    y = y(2:length(y));
+    
+    % reduce
+    
+    % adjust lists
+    if changed == 1
+    end 
+end
 
 end
