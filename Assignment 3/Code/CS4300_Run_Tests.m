@@ -43,7 +43,7 @@ function [ac1Reductions, ac3Reductions, ac1Times, ac3Times, startingLabels] = CS
     %percentage
     
     dim1 = length(p) * numberOfTrials;
-    dim2 = 2;
+    dim2 = 3;
     dim3 = length(n);
     
     reductions = zeros(dim1, dim2, dim3);
@@ -69,7 +69,8 @@ function [ac1Reductions, ac3Reductions, ac1Times, ac3Times, startingLabels] = CS
                 [ac1r, ac1t, ac3r, ac3t] = CS4300_Arc_Consistency(g, d, P_function);
                 
                 reductions(i, 1, count) = CS4300_Count_Ones(d);
-                reductions(i, 2, count) = ac3r;
+                reductions(i, 2, count) = ac1r;
+                reductions(i, 3, count) = ac3r;
                 
                 ac1TimeCount = ac1TimeCount + ac1t;
                 ac3TimeCount = ac3TimeCount + ac3t;
