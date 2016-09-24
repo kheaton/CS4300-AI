@@ -85,7 +85,6 @@ while size(q, 2) >= num
 
         if idx == 0
             % we failed to find a solution
-            disp('failed');
             D_revised = D;
             return
         end
