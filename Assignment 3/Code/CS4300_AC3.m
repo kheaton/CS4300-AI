@@ -60,7 +60,7 @@ while size(q,2) >= num
                     if predFunc(n.value, idx, arc, j)
                         count = 0;
 
-                        for k = 1:length(D(arc,:))
+                        for k = 1:length(D(:,arc))
                             if D(k,arc) == 1
                                 count = count + 1;
                             end
@@ -83,7 +83,7 @@ while size(q,2) >= num
             D_revised = D;
             return
         end
-        
+
         if removed == 1
             for i = 1:length(G)
                 if G(n.value, i) ~= 0
@@ -94,6 +94,7 @@ while size(q,2) >= num
                 end
             end
         end
+
     end
 end
 

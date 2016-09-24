@@ -17,6 +17,11 @@ function res = CS4300_P_no_attack(i,a,j,b)
 
 res = true;
 
+if i == j || a == b
+    res = false;
+    return
+end
+
 x = 0;
 y = 0;
 
