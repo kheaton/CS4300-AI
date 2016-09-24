@@ -14,14 +14,15 @@ function D_revised = CS4300_AC3(G,D,P)
 % Call:
 %   G = 1 - eye(3,3);
 %   D = [1,1,1;1,1,1;1,1,1];
-%   Dr = CS4300_AC3(G,D,’CS4300_P_no_attack’);
+%   Dr = CS4300_AC3(G,D,'CS4300_P_no_attack');
 % Author:
 %   Braden Scothern & Kyle Heaton
 %   UU
 %   Fall 2016
 %
 
-predFunc = str2func(P);
+% Comment out if str2func() isn't available and comment the usage of predFunc below while uncommenting the line below
+predFunc = str2func(P); 
 
 q = struct(...
     'value', {},...
@@ -38,40 +39,51 @@ for i = 1:length(G)
 end
 
 num = 1;
-while size(q,2) >= num
+while size(q, 2) >= num
     n = q(num);
     num = num + 1;
 
     arcNum = 1;
-    while length(arcNum) >= arcNum
+    while length(n.arcs) >= arcNum
         arc = n.arcs(arcNum);
         arcNum = arcNum + 1;
 
         % check current domain
         idx = 0;
         removed = 0;
-        for i = 1:length(D(:,n.value))
-            if D(n.value,i) == 1
+        for i = 1:length(D(:, n.value))
+            if D(i,n.value) == 1
                 idx = i;
 
                  % check the domain of arcs
-                for j = 1:length(D(:,arc))
+                for j = 1:length(D(:, arc))
                     % check if there is an attack since that is what the predFunc is doing
-                    if predFunc(n.value, idx, arc, j)
+                    
+                    if predFunc(n.value, idx, arc, j) == 0 && D(j, arc) == 1               % comment out when str2func() isn't available
+                    %if ~CS4300_P_no_attack(n.value, idx, arc, j) && D(idx, arc) == 1    % This should be uncommented out if str2func() isn't available
+                    
+                        rm = 0;
                         count = 0;
-
+                        
                         for k = 1:length(D(:,arc))
                             if D(k,arc) == 1
                                 count = count + 1;
                             end
                         end
-
-                        % if this is 1 then that means that there is no value in the domain of the arc that supports the current queen
                         if count == 1
-                            disp('rm');
-                            removed = 1;
-                            D(n.value,i) = 0;
+                            rm = 1;
                         end
+                        
+                        if rm == 1
+                            removed = 1;
+                            D(idx, n.value) = 0;
+                        end
+
+                        disp(D);
+                        disp(n.value);
+                        disp(idx);
+                        disp(arc);
+                        disp(j);
                     end
                 end
 
@@ -80,6 +92,7 @@ while size(q,2) >= num
 
         if idx == 0
             % we failed to find a solution
+            disp('failed');
             D_revised = D;
             return
         end
