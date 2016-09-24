@@ -50,7 +50,6 @@ while size(q, 2) >= num
 
         % check current domain
         idx = 0;
-        removed = 0;
         for i = 1:length(D(:, n.value))
             if D(i,n.value) == 1
                 idx = i;
@@ -62,28 +61,22 @@ while size(q, 2) >= num
                     if predFunc(n.value, idx, arc, j) == 0 && D(j, arc) == 1               % comment out when str2func() isn't available
                     %if ~CS4300_P_no_attack(n.value, idx, arc, j) && D(idx, arc) == 1    % This should be uncommented out if str2func() isn't available
                     
-                        rm = 0;
                         count = 0;
-                        
                         for k = 1:length(D(:,arc))
                             if D(k,arc) == 1
                                 count = count + 1;
                             end
                         end
-                        if count == 1
-                            rm = 1;
-                        end
                         
-                        if rm == 1
-                            removed = 1;
+                        if count == 1
                             D(idx, n.value) = 0;
+                            
+                            % add back in the 1 arc that will need to be checked because of this removal
+                            tmpQ = newQ;
+                            tmpQ(1).value = arc;
+                            tmpQ(1).arcs = [n.value];
+                            q = [q(1:size(q,2)), tmpQ(1)];
                         end
-
-                        disp(D);
-                        disp(n.value);
-                        disp(idx);
-                        disp(arc);
-                        disp(j);
                     end
                 end
 
@@ -95,17 +88,6 @@ while size(q, 2) >= num
             disp('failed');
             D_revised = D;
             return
-        end
-
-        if removed == 1
-            for i = 1:length(G)
-                if G(n.value, i) ~= 0
-                    tmpQ = newQ;
-                    tmpQ(1).value = i;
-                    tmpQ(1).arcs = [n.value];
-                    q = [q(1:size(q,2)), tmpQ(1)];
-                end
-            end
         end
 
     end

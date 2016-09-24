@@ -20,66 +20,85 @@ function D_revised = CS4300_AC1(G,D,P)
 %   UU
 %   Fall 2016
 %
+% Comment out if str2func() isn't available and comment the usage of predFunc below while uncommenting the line below
+predFunc = str2func(P); 
 
-%percent = CS4300_Count_Ones(D) / length(D)^2;
+q = struct(...
+    'value', {},...
+    'arcs', []);
+newQ = q;
 
-%D_revised = CS4300_Generate_D(length(D), percent * rand());
-%%D_revised = zeros(length(D));
-%pause(length(G) * 0.002 * percent * rand());
-
-origD = D;
-D_revised = D;
-
-q = [];
-for i = 1:length(D)
-    q = [q(1:length(q)), i];
+for i = 1:length(G)
+    q(i).value = i;
+    for j = 1:length(G)
+        if G(i,j) ~= 0
+            q(i).arcs = [q(i).arcs(1:length(q(i).arcs)), j];
+        end
+    end
 end
 
-while ~isempty(q)
-    q_ = q(1);
-    q = q(2:length(q));
-    
-    % reduce
-    found = 0;
-    changed = 0;
-    for i = 1:length(D)
-        if D(i,q_) == 1
-            if found == 0
-                found = 1;
-            else
-                D(i,q_) = 0;
+num = 1;
+while size(q, 2) >= num
+    n = q(num);
+    num = num + 1;
+
+    arcNum = 1;
+    while length(n.arcs) >= arcNum
+        arc = n.arcs(arcNum);
+        arcNum = arcNum + 1;
+
+        % check current domain
+        idx = 0;
+        removed = 0;
+        for i = 1:length(D(:, n.value))
+            if D(i,n.value) == 1
+                idx = i;
+
+                 % check the domain of arcs
+                for j = 1:length(D(:, arc))
+                    % check if there is an attack since that is what the predFunc is doing
+                    
+                    if predFunc(n.value, idx, arc, j) == 0 && D(j, arc) == 1               % comment out when str2func() isn't available
+                    %if ~CS4300_P_no_attack(n.value, idx, arc, j) && D(idx, arc) == 1    % This should be uncommented out if str2func() isn't available
+                    
+                        count = 0;
+                        for k = 1:length(D(:,arc))
+                            if D(k,arc) == 1
+                                count = count + 1;
+                            end
+                        end
+                        
+                        if count == 1
+                            removed = 1;
+                            D(idx, n.value) = 0;
+                        end
+                    end
+                end
+
             end
         end
-    end
-    
-    if found == 0
-        changed = 1;
-    end
-    
-    % adjust lists
-    if changed == 1
-        % check if the current row has an open spot for a queen
-        for i = 1:length(D);
-            if D(i,q_) == 1
-                changed = 0;
-            end
-        end
-        
-        if changed == 1
-            % failed
-            D_revised = origD * -1;
+
+        if idx == 0
+            % we failed to find a solution
+            D_revised = D;
             return
-        else
-            % add changes back in
-            i = q(1) - 1;
-            while q(1) ~= 1
-                q = [i,q(1:length(q))];
-                i = i - 1;
+        end
+
+        if removed == 1
+            % add back in all the arcs to be checked
+            for i = 1:length(G)
+                if G(n.value, i) ~= 0
+                    tmpQ = newQ;
+                    tmpQ(1).value = i;
+                    tmpQ(1).arcs = [n.value];
+                    q = [q(1:size(q,2)), tmpQ(1)];
+                end
             end
         end
-    end 
-    
-    disp(D);
+
+    end
 end
+
+D_revised = D;
 
 end
