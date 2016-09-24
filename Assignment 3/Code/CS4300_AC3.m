@@ -38,36 +38,50 @@ for i = 1:length(G)
 end
 
 num = 1;
-
-while length(q) <= num
+while size(q,2) >= num
     n = q(num);
     num = num + 1;
-    
-    % check current domain
-    idx = 0;
-    for i = 1:length(D(n.value))
-        if idx == 0 && D(n.value,i) == 1
-            idx = i;
-        end
-    end
-    
-    if idx == 0
-        % we failed to find a solution
-        return
-    end
-    
+
     arcNum = 1;
-    while length(arcNum) <= arcNum
+    while length(arcNum) >= arcNum
         arc = n.arcs(arcNum);
         arcNum = arcNum + 1;
-        
-        % check the domain of others
+
+        % check current domain
+        idx = 0;
         removed = 0;
-        for i = 1:length(D(arc.value))
-            
-            % check if there is an attack since that is what the predFunc is doing
-            if ~predFunc(n.value, idx, arc.value, i)
+        for i = 1:length(D(:,n.value))
+            if D(n.value,i) == 1
+                idx = i;
+
+                 % check the domain of arcs
+                for j = 1:length(D(:,arc))
+                    % check if there is an attack since that is what the predFunc is doing
+                    if predFunc(n.value, idx, arc, j)
+                        count = 0;
+
+                        for k = 1:length(D(arc,:))
+                            if D(k,arc) == 1
+                                count = count + 1;
+                            end
+                        end
+
+                        % if this is 1 then that means that there is no value in the domain of the arc that supports the current queen
+                        if count == 1
+                            disp('rm');
+                            removed = 1;
+                            D(n.value,i) = 0;
+                        end
+                    end
+                end
+
             end
+        end
+
+        if idx == 0
+            % we failed to find a solution
+            D_revised = D;
+            return
         end
         
         if removed == 1

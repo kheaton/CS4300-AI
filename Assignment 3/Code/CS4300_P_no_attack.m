@@ -38,9 +38,6 @@ newA = a;
 while ~(newI == j || newA == b)
     newI = newI + x;
     newA = newA + y;
-    disp(newI);
-    disp(newA);
-    disp('');
 end
 
 if newI == j && newA == b
