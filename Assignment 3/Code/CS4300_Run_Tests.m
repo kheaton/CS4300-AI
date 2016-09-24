@@ -1,4 +1,4 @@
-function [ac1Reductions, ac3Reductions, ac1Times, ac3Times, startingLabels] = CS4300_Run_Tests()
+function [reductions, ac1Times, ac3Times] = CS4300_Run_Tests()
 % CS4300_Run_Tests - 
 % On input:
 %
@@ -35,21 +35,18 @@ function [ac1Reductions, ac3Reductions, ac1Times, ac3Times, startingLabels] = CS
 
     n = 4:10;
     p = 0 : 0.2 : 1;
-    numberOfTrials = 2;%00;
+    numberOfTrials = 10;%200;
     
     %n, (x, y) - (starting number of labels, expected reduction in Labels)
     %reduction should be the same for ac1 and ac3
     %expected reduction should be an average of the 200 trials with each
     %percentage
+        
+    %reductions = zeros(1, 3, length(p) * numberOfTrials);
+    reductions = zeros(1, 3);
     
-    dim1 = length(p) * numberOfTrials;
-    dim2 = 3;
-    dim3 = length(n);
-    
-    reductions = zeros(dim1, dim2, dim3);
-    
-    ac1Times = zeros(length(n));
-    ac3Times = zeros(length(n));
+    ac1Times = zeros(1, length(n));
+    ac3Times = zeros(1, length(n));
     
     totalSteps = length(n) * length(p) * numberOfTrials;
     count = 1;
@@ -68,9 +65,12 @@ function [ac1Reductions, ac3Reductions, ac1Times, ac3Times, startingLabels] = CS
                 %perform arc consistency test
                 [ac1r, ac1t, ac3r, ac3t] = CS4300_Arc_Consistency(g, d, P_function);
                 
-                reductions(i, 1, count) = CS4300_Count_Ones(d);
-                reductions(i, 2, count) = ac1r;
-                reductions(i, 3, count) = ac3r;
+                temp = zeros(1, 3);
+                temp(1, 1) = n(i);
+                temp(1, 2) = CS4300_Count_Ones(d);
+                temp(1, 3) = ac3r;
+                
+                reductions = vertcat(reductions, temp);
                 
                 ac1TimeCount = ac1TimeCount + ac1t;
                 ac3TimeCount = ac3TimeCount + ac3t;
@@ -80,10 +80,9 @@ function [ac1Reductions, ac3Reductions, ac1Times, ac3Times, startingLabels] = CS
             end
         end
         
-        ac1Times(i) = ac1TimeCount / length(p) * numberOfTrials;
-        ac3Times(i) = ac3TimeCount / length(p) * numberOfTrials;
-    end
-    
+        ac1Times(1, i) = ac1TimeCount / length(p) * numberOfTrials;
+        ac3Times(1, i) = ac3TimeCount / length(p) * numberOfTrials;
+    end    
     close(h);
 end
 
