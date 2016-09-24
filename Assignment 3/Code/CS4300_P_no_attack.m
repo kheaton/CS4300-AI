@@ -15,5 +15,37 @@ function res = CS4300_P_no_attack(i,a,j,b)
 %   Fall 2016
 %
 
+res = true;
+
+x = 0;
+y = 0;
+
+if i < j
+    x = 1;
+elseif i > j
+    x = -1;
+end
+
+if a < b
+    y = 1;
+elseif a > b
+    y = -1;
+end
+
+newI = i;
+newA = a;
+
+while ~(newI == j || newA == b)
+    newI = newI + x;
+    newA = newA + y;
+    disp(newI);
+    disp(newA);
+    disp('');
+end
+
+if newI == j && newA == b
+    res = false;
+end
+
 end
 

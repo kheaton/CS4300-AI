@@ -37,16 +37,38 @@ for i = 1:length(G)
     end
 end
 
-while ~isempty(q)
-    n = q(1);
-    q = q(2:length(q));
+num = 1;
+
+while length(q) <= num
+    n = q(num);
+    num = num + 1;
     
-    while ~isempty(n.arcs)
-        arc = n.arcs(1);
-        n.arcs = n.arcs(2:length(n.arcs));
+    % check current domain
+    idx = 0;
+    for i = 1:length(D(n.value))
+        if idx == 0 && D(n.value,i) == 1
+            idx = i;
+        end
+    end
+    
+    if idx == 0
+        % we failed to find a solution
+        return
+    end
+    
+    arcNum = 1;
+    while length(arcNum) <= arcNum
+        arc = n.arcs(arcNum);
+        arcNum = arcNum + 1;
         
+        % check the domain of others
         removed = 0;
-        
+        for i = 1:length(D(arc.value))
+            
+            % check if there is an attack since that is what the predFunc is doing
+            if ~predFunc(n.value, idx, arc.value, i)
+            end
+        end
         
         if removed == 1
             for i = 1:length(G)
